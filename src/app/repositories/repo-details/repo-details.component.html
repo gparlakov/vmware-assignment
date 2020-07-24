@@ -1,0 +1,55 @@
+<p class="path-details">
+    vmware/{{repoName}} {{isDetailsTabActive ? 'details' : 'commits'}}
+    <button class="btn btn-sm" routerLink="../../../repositories">{{'back to pinned repos' | uppercase}} </button>
+</p>
+
+<clr-tabs>
+    <clr-tab>
+        <button (click)="onTabChanged(true)" clrTabLink id="link1">General Info</button>
+        <clr-tab-content id="content1" *clrIfActive>
+            <div *ngFor="let item of readMe | keyvalue">
+                <b>{{item.key}}</b>: 
+                <div *ngIf="isObject(item.value); else onlyValue" class="multiple-values">
+                    <div *ngFor="let i of item.value | keyvalue">
+                        <b>{{i.key}}</b>: {{i.value}}
+                    </div>
+                </div>
+                <ng-template #onlyValue>
+                    {{item.value}}
+                </ng-template>
+            </div>
+        </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button (click)="onTabChanged(false)" clrTabLink>Commits</button>
+        <clr-tab-content id="content2">
+            <clr-datagrid>
+                <clr-dg-placeholder>No data to display</clr-dg-placeholder>
+            
+                <clr-dg-column>
+                    Comment
+                </clr-dg-column>
+                <clr-dg-column>
+                    Date
+                </clr-dg-column>
+                <clr-dg-column>
+                    Contributor
+                </clr-dg-column>
+                <clr-dg-column>
+                    Download patch
+                </clr-dg-column>
+            
+                <clr-dg-row *clrDgItems="let c of commits">
+                    <clr-dg-cell>{{c.commit.message}}</clr-dg-cell>
+                    <clr-dg-cell>{{c.commit.author.date | date}}</clr-dg-cell>
+                    <clr-dg-cell>
+                       {{c.commit.author.name}}
+                    </clr-dg-cell>
+                    <clr-dg-cell>
+                        <button class="btn btn-primary" (click)="onDownload(c.html_url)">Download</button>
+                    </clr-dg-cell>
+                </clr-dg-row>
+            </clr-datagrid>
+        </clr-tab-content>
+    </clr-tab>
+</clr-tabs>

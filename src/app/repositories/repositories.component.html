@@ -1,0 +1,83 @@
+<h4 *ngIf="!showDetailsPage">Pinned repositories</h4>
+<clr-datagrid *ngIf="!showDetailsPage">
+    <clr-dg-placeholder>No data to display</clr-dg-placeholder>
+
+    <clr-dg-column>
+        Name
+        <clr-dg-string-filter [clrDgStringFilter]="nameFilter">
+        </clr-dg-string-filter>
+    </clr-dg-column>
+    <clr-dg-column>
+        License
+        <clr-dg-string-filter [clrDgStringFilter]="licenseFilter">
+        </clr-dg-string-filter>
+    </clr-dg-column>
+    <clr-dg-column>
+        Commits
+        <clr-dg-string-filter [clrDgStringFilter]="commitFilter">
+        </clr-dg-string-filter>
+    </clr-dg-column>
+    <clr-dg-column>
+        Contributors
+        <clr-dg-string-filter [clrDgStringFilter]="contributorFilter">
+        </clr-dg-string-filter>
+    </clr-dg-column>
+    <clr-dg-column>
+        Releases
+        <clr-dg-string-filter [clrDgStringFilter]="releaseFilter">
+        </clr-dg-string-filter>
+    </clr-dg-column>
+    <clr-dg-column>
+        Branches
+        <clr-dg-string-filter [clrDgStringFilter]="branchFilter">
+        </clr-dg-string-filter>
+    </clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let repo of repositories">
+        <clr-dg-cell>
+            <a (click)="navigateToDetails(repo.name)">
+                {{repo.name}}
+            </a>
+        </clr-dg-cell>
+        <clr-dg-cell>
+            <span *ngIf="repo.license; else noContent">
+                {{repo.license.name}}
+            </span>
+              
+            <ng-template #noContent>
+                -
+            </ng-template>
+        </clr-dg-cell>
+        <clr-dg-cell>
+            <div *ngFor="let comm of repo.commits">
+                {{comm.commit.message}}
+            </div>
+        </clr-dg-cell>
+        <clr-dg-cell>
+            <div *ngFor="let contr of repo.contributors">
+                {{contr.login}}
+            </div>
+        </clr-dg-cell>
+        <clr-dg-cell>
+            <span *ngIf="repo.length; else noContent">
+                <span *ngFor="let rel of repo.releases">
+                    {{rel.name}}
+                    <br/>
+                </span>
+            </span>
+              
+            <ng-template #noContent>
+                -
+            </ng-template>
+        </clr-dg-cell>
+        <clr-dg-cell>
+            <div *ngFor="let br of repo.branches">
+                {{br.name}}
+            </div>
+        </clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>{{repositories.length}} repositories</clr-dg-footer>
+</clr-datagrid>
+
+<router-outlet></router-outlet>

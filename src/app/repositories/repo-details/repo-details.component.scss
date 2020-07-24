@@ -1,0 +1,23 @@
+:host {
+    padding: 0 30px 30px 30px;
+    display: block;
+}
+
+.multiple-values {
+    padding-left: 10px;
+}
+
+.path-details {
+    font-weight: bold;
+    padding-left: 3px;
+
+    button {
+        margin-left: 10px;
+    }
+}
+
+:host ::ng-deep {
+    ul.nav {
+        margin: 20px 0;
+    }
+}
